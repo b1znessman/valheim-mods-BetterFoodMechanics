@@ -15,9 +15,9 @@ namespace BetterFoodMechanics;
 [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.Minor)]
 public class BetterFoodMechanicsPlugin : BaseUnityPlugin
 {
-    public const string PluginGuid = "biznessman.betterfoodmechanics";
+    public const string PluginGuid = "biznessman.BetterFoodMechanics";
     public const string PluginName = "BetterFoodMechanics";
-    public const string PluginVersion = "2.0.0";
+    public const string PluginVersion = "2.0.1";
 
     internal static ConfigEntry<Toggle> Enabled;
     internal static ConfigEntry<int> Mode;
