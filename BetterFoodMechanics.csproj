@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
-    <AssemblyName>FeelingCozy</AssemblyName>
-    <RootNamespace>FeelingCozy</RootNamespace>
+    <AssemblyName>BetterFoodMechanics</AssemblyName>
+    <RootNamespace>BetterFoodMechanics</RootNamespace>
     <LangVersion>latest</LangVersion>
     <Nullable>disable</Nullable>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
