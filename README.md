@@ -1,27 +1,70 @@
-# FeelingCozy
-Decreases the rate food loses effectiveness when at home
+# BetterFoodMechanics
 
-Slows or pauses food decay while you're inside your base (ward area) and comfortable enough.
-Only the food timer (and the buffs tied to it) change. Health/stamina regen per tick is untouched.
 
-## Config (all server-synced, server values win)
-| Setting | Default | Notes |
+Take control of how food works in Valheim. Make food last longer, decide whether its buffs decay, and let your food timer freeze while you're sheltered. Can be used on dedicated servers with every setting **server-synced**.
+
+- **Longer food** - Multiply how long all food lasts, from 1x to 5x.
+- **Food buff degradation** - Toggle the health, stamina and eitr bonuses at full strength for the entire duration or keep it the vanilla way.
+- **Customizable configs** - Set the minimum comfort level to trigger the effect. There's also a dynamic option if you prefer.
+- **Honest HUD timer** - While your food is slowed, the timer on the HUD is adjusted to match, so it counts down at a natural pace instead of looking stuck.
+
+This mod only affects **food**. Meads and potions are not touched, and the health regeneration you get from food works exactly like vanilla.
+
+## Installation
+
+1. Install [BepInExPack Valheim](https://thunderstore.io/c/valheim/p/denikson/BepInExPack_Valheim/) and [Jotunn](https://thunderstore.io/c/valheim/p/ValheimModding/Jotunn/).
+2. Install BetterFoodMechanics with your mod manager, or drop `BetterFoodMechanics.dll` into `BepInEx/plugins/`.
+3. Launch the game once to generate the config file in `BepInEx/config/`.
+
+### Multiplayer / dedicated servers
+
+Install the mod on **both** the server and every client. Jotunn must be installed on both sides too. The server's config values are sent to players when they join, so players can't override them locally.
+
+## Config
+
+The config file is `biznessman.betterfoodmechanics.cfg`. All settings are synced from the server.
+
+### 1 - General
+
+| Setting | Default | Options | Description |
+|---|---|---|---|
+| `Enabled` | `On` | `On` / `Off` | Turns the mod on or off. |
+
+### 2 - Cozyness
+
+| Setting | Default | Range | Description |
+|---|---|---|---|
+| `DegradationMode` | `0` | `0` - `2` | How food behaves while you're comfortable (see below). |
+| `MinimumComfort` | `10` | `5` - `25` | Comfort level needed for modes 0 and 1 to apply. Not used in mode 2. |
+
+**Degradation modes**
+
+| Mode | Name | What happens |
 |---|---|---|
-| Enabled | true | Master switch |
-| DegradationMode | 0 | 0 = frozen, 1 = half rate, 2 = scaled by comfort |
-| MinimumComfort | 10 | 5-25. Used by modes 0 and 1 only |
+| `0` | Frozen | Food timer and buffs stop completely. |
+| `1` | Slow | Food ticks at half speed, so it lasts twice as long. |
+| `2` | Scaled | The more comfort you have, the slower your food decays. Ignores `MinimumComfort`. |
 
-Mode 2 rates: comfort 10-14 = 1/2, 15-19 = 1/3, 20+ = 1/4. Below 10 = normal decay.
+**Mode 2 speeds**
 
-## Build
-1. Install BepInEx and Jotunn in your Valheim folder.
-2. Set `VALHEIM_DIR` (env var, or edit the csproj) to the Valheim install path.
-3. `dotnet build -c Release`
-4. Copy `bin/Release/net48/FoodFreezer.dll` to `BepInEx/plugins/` on the client and on the dedicated server.
+| Comfort level | Food decay speed |
+|---|---|
+| Below 10 | Normal |
+| 10 - 14 | 1/2 speed |
+| 15 - 19 | 1/3 speed |
+| 20 or more | 1/4 speed (maximum) |
 
-## Not verified
-Written without access to the Valheim 1.0 assemblies, so these are untested:
-- `Player.UpdateFood` (private, `float dt, bool forceUpdate`) still exists with that signature
-- `Player.m_foods` field name and `Player.Food.m_time`
-- `EffectArea.IsPointInsideArea(Vector3, EffectArea.Type, float)` signature
-- Jotunn's `ConfigurationManagerAttributes` namespace (`Jotunn.Configs` vs `Jotunn.Utils`)
+When your comfort drops below what's needed, food goes back to decaying at the normal rate.
+
+### 3 - Food
+
+| Setting | Default | Range | Description |
+|---|---|---|---|
+| `FoodDurationMultiplier` | `1` | `1` - `5` | How much longer food lasts. `2` means a 30 minute food lasts 60. |
+| `FoodBuffDegrades` | `On` | `On` / `Off` | **On:** food buffs (health, stamina, eitr) fade gradually over the full duration. **Off:** buffs stay at full strength until the food runs out. |
+
+With a multiplier above 1, the buff fade is spread across the full, longer duration, and you can eat the same food again once less than half of its duration is left, just like vanilla.
+
+## Credits
+This mod is inspired by blacks7ar's FoodDurationMultiplier with additional tweaks.
+Also from another game that I played :)
